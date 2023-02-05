@@ -1,12 +1,13 @@
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import { ThemeProvider } from 'styled-components'
-
+import { Provider } from 'react-redux'
+import store from '../store'
 import { GlobalStyles, theme } from '~/styles'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <Provider store={store}>
       <Head>
         <title>React Avançado</title>
 
@@ -20,6 +21,6 @@ export default function App({ Component, pageProps }: AppProps) {
         <GlobalStyles />
         <Component {...pageProps} />
       </ThemeProvider>
-    </>
+    </Provider>
   )
 }

@@ -1,7 +1,9 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
 
 import styled from 'styled-components'
+import { useSelector, useDispatch } from 'react-redux'
+import { increment, decrement } from '../store/counter'
+import { RootState } from '../store'
 
 export const Main = styled.main`
   width: 100vw;
@@ -14,20 +16,13 @@ export const Main = styled.main`
 `
 
 const Home: NextPage = () => {
+  const value = useSelector((state: RootState) => state.counter.value)
+  const dispatch = useDispatch()
   return (
     <div>
-      <Head>
-        <title>Homepage</title>
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
-
-      <Main>
-        <h1>Hello World 🥳</h1>
-
-        <p>
-          Get started by editing <code>pages/index.tsx</code>
-        </p>
-      </Main>
+      <h1>{value}</h1>
+      <button onClick={() => dispatch(increment())}>+</button>
+      <button onClick={() => dispatch(decrement())}>-</button>
     </div>
   )
 }
