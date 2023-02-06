@@ -5,7 +5,7 @@ interface ButtonProps {
   onClick?: () => void
 }
 
-export const Button = ({ onClick, children, ...props }: ButtonProps) => {
+const Button = ({ onClick, children, ...props }: ButtonProps) => {
   return (
     <StyledButton onClick={onClick} {...props}>
       {children}
