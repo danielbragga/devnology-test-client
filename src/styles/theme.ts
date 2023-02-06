@@ -48,6 +48,10 @@ export const theme = {
     xl: '1600px',
   },
   flex: {
+    display: {
+      flex: 'flex',
+      inlineFlex: 'inline-flex',
+    },
     dir: {
       row: 'row',
       col: 'column',
