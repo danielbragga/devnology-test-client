@@ -8,6 +8,10 @@ export const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  html {
+    font-size: 62.5%;
+  }
+
   body {
     background: ${theme.colors.black};
     font-family: ${theme.font.family};
@@ -26,6 +30,11 @@ export const GlobalStyles = createGlobalStyle`
 
   ul {
     list-style: none;
+  }
+
+  input, select, textarea, button {
+    font-family: inherit;
+    font-size: inherit;
   }
 
   &::selection {
