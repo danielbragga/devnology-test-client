@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import { useSelector, useDispatch } from 'react-redux'
-import { increment, decrement } from '../store/counter'
 import { RootState } from '../store'
 import Button from '~/components/Button/Button'
 import { setLoading } from '~/store/loader'
@@ -8,7 +7,6 @@ import Loader from '~/components/Loader/Loader'
 import { hideToast, showToast } from '~/store/toast'
 
 const Home: NextPage = () => {
-  const value = useSelector((state: RootState) => state.counter.value)
   const toast = useSelector((state: RootState) => state.toast)
   const dispatch = useDispatch()
 
@@ -31,13 +29,8 @@ const Home: NextPage = () => {
 
   return (
     <div>
-      <h1>{value}</h1>
-      <Button onClick={() => dispatch(increment())}>+</Button>
-      <Button onClick={() => dispatch(decrement())}>-</Button>
       <Button onClick={handleClick}>Load</Button>
-      <button type='button' onClick={handleClick2}>
-        Show Toast
-      </button>
+      <Button onClick={handleClick2}>Show Toast</Button>
       <Loader></Loader>
       {toast.toasts.map((toast) => (
         <div key={toast.id}>
