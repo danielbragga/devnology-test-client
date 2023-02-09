@@ -1,13 +1,13 @@
 import type { NextPage } from 'next'
-import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../store'
+import { useDispatch } from 'react-redux'
+
 import Button from '~/components/Button/Button'
 import { setLoading } from '~/store/loader'
 import Loader from '~/components/Loader/Loader'
 import { hideToast, showToast } from '~/store/toast'
+import { ToastWrapper as Toast } from '~/components/Toast/Toast'
 
 const Home: NextPage = () => {
-  const toast = useSelector((state: RootState) => state.toast)
   const dispatch = useDispatch()
 
   const handleClick = () => {
@@ -18,25 +18,20 @@ const Home: NextPage = () => {
   }
 
   const handleClick2 = () => {
-    const id = 'some-id'
-    const message = 'Some message'
-    const type = 'success'
-    dispatch(showToast({ id, message, type }))
+    const id = Date.now().toString()
+    dispatch(showToast({ id: id, message: 'Toast message', type: 'error' }))
     setTimeout(() => {
       dispatch(hideToast(id))
-    }, 5000)
+    }, 2500)
   }
 
   return (
     <div>
       <Button onClick={handleClick}>Load</Button>
+      <Loader type='spinner'></Loader>
+      <Loader type='fullscreen'></Loader>
       <Button onClick={handleClick2}>Show Toast</Button>
-      <Loader></Loader>
-      {toast.toasts.map((toast) => (
-        <div key={toast.id}>
-          {toast.message} - {toast.type}
-        </div>
-      ))}
+      <Toast></Toast>
     </div>
   )
 }
