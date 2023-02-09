@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import Button from '~/components/Button/Button'
 import { setLoading } from '~/store/loader'
 import Loader from '~/components/Loader/Loader'
-import { hideToast, showToast } from '~/store/toast'
+import { showToast } from '~/store/toast'
 import { ToastWrapper as Toast } from '~/components/Toast/Toast'
 
 const Home: NextPage = () => {
@@ -17,12 +17,16 @@ const Home: NextPage = () => {
     }, 5000)
   }
 
+  // const handleClick2 = () => {
+  //   const id = Date.now().toString()
+  //   dispatch(showToast({ id: id, message: 'Toast message', type: 'error' }))
+  //   setTimeout(() => {
+  //     dispatch(hideToast(id))
+  //   }, 2500)
+  // }
+
   const handleClick2 = () => {
-    const id = Date.now().toString()
-    dispatch(showToast({ id: id, message: 'Toast message', type: 'error' }))
-    setTimeout(() => {
-      dispatch(hideToast(id))
-    }, 2500)
+    dispatch(showToast({ message: 'Toast message', type: 'success' }))
   }
 
   return (

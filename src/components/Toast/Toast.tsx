@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { RootState } from '~/store'
 
 interface Toast {
-  id: string
+  id?: string
   message: string
   type: 'error' | 'success' | 'info'
 }
