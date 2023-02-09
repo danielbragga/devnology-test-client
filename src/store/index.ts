@@ -13,43 +13,35 @@ import { addToastAutoHideListeners } from '../store/toast'
 import type { TypedStartListening, TypedAddListener } from '@reduxjs/toolkit'
 export type RootState = ReturnType<typeof rootReducer>
 export type AppDispatch = typeof store.dispatch
+export type AppStartListening = TypedStartListening<RootState, AppDispatch>
 export const useAppDispatch: () => AppDispatch = useDispatch
+
+export const listenerMiddleware = createListenerMiddleware()
+
+export const listenerMiddle = listenerMiddleware.middleware as Middleware<
+  (action: Action<'specialAction'>) => number,
+  RootState
+>
+
+export const startAppListening =
+  listenerMiddleware.startListening as AppStartListening
+
+export const addAppListener = addListener as TypedAddListener<
+  RootState,
+  AppDispatch
+>
 
 const rootReducer = combineReducers({
   loader: loaderReducer,
   toast: toastReducer,
 })
 
-// Define the type for the `startListening` function
-export type AppStartListening = TypedStartListening<RootState, AppDispatch>
-
-// Create the listener middleware
-export const listenerMiddleware = createListenerMiddleware()
-
-// Extract the middleware from the listenerMiddleware object
-export const listenerMiddle = listenerMiddleware.middleware as Middleware<
-  (action: Action<'specialAction'>) => number,
-  RootState
->
-
-// Extract the `startListening` function from the listenerMiddleware object
-export const startAppListening =
-  listenerMiddleware.startListening as AppStartListening
-
-// Extract the `addListener` function from the listenerMiddleware object
-export const addAppListener = addListener as TypedAddListener<
-  RootState,
-  AppDispatch
->
-
-// Add listeners for feature 1
-addToastAutoHideListeners(startAppListening)
-
-// Configure the store with the root reducer and the listener middleware
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().prepend(listenerMiddle),
 })
+
+addToastAutoHideListeners(startAppListening)
 
 export default store

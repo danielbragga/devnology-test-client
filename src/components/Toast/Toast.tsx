@@ -2,15 +2,10 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { RootState } from '~/store'
-
-interface Toast {
-  id?: string
-  message: string
-  type: 'error' | 'success' | 'info'
-}
+import { Toast as ToastType } from '~/store/toast.interface'
 
 interface ToastProps {
-  toasts: Toast[]
+  toasts: ToastType[]
 }
 
 const ToastContainer = styled.div`
@@ -24,7 +19,7 @@ const ToastContainer = styled.div`
   flex-direction: column;
 `
 
-const Toast = styled.div<{ type: Toast['type'] }>`
+const Toast = styled.div<{ type: ToastType['type'] }>`
   padding: 1rem;
   border-bottom: 1px solid #cccccc;
   background-color: ${(props) => {
