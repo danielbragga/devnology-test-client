@@ -1,11 +1,10 @@
 import {
-  createAction,
   createSlice,
+  ListenerEffectAPI,
   PayloadAction,
-  current,
-  createListenerMiddleware,
+  ThunkDispatch,
 } from '@reduxjs/toolkit'
-import { useDispatch } from 'react-redux'
+import type { AppStartListening } from '../store/index'
 
 interface Toast {
   id?: string
@@ -13,7 +12,7 @@ interface Toast {
   type: 'error' | 'success' | 'info'
 }
 
-export interface ToastsState {
+interface ToastsState {
   toasts: Toast[]
 }
 
@@ -35,6 +34,38 @@ export const toastsSlice = createSlice({
   },
 })
 
-export const { showToast, hideToast } = toastsSlice.actions
+export const addToastAutoHideListeners = (
+  startListening: AppStartListening,
+) => {
+  startListening({
+    actionCreator: showToast,
+    effect: async (action, listenerApi) => {
+      const toasts = getCurrentToasts(listenerApi)
+      for (const toast of toasts) {
+        hideToastAfterTimeout(listenerApi, toast)
+      }
+    },
+  })
+}
 
+const getCurrentToasts = (
+  listenerAPI: ListenerEffectAPI<any, ThunkDispatch<any, any, any>, any>,
+): Toast[] => {
+  const state = listenerAPI.getState()
+  return state.toast.toasts
+}
+
+const hideToastAfterTimeout = (
+  listenerAPI: ListenerEffectAPI<any, ThunkDispatch<any, any, any>, any>,
+  toast: Toast,
+) => {
+  const { dispatch } = listenerAPI
+  const { id } = toast
+
+  setTimeout(() => {
+    dispatch(hideToast(id as string))
+  }, 2500)
+}
+
+export const { showToast, hideToast } = toastsSlice.actions
 export default toastsSlice.reducer

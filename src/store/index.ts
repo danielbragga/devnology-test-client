@@ -2,58 +2,54 @@ import {
   configureStore,
   combineReducers,
   createListenerMiddleware,
-  ListenerEffectAPI,
-  ThunkDispatch,
+  Middleware,
+  Action,
+  addListener,
 } from '@reduxjs/toolkit'
 import loaderReducer from './loader'
-import { LoaderState } from './loader'
-import toastReducer, { ToastsState } from './toast'
-import { showToast, hideToast } from '../store/toast'
-import Toast from '~/components/Toast/Toast'
+import toastReducer from './toast'
+import { useDispatch } from 'react-redux'
+import { addToastAutoHideListeners } from '../store/toast'
+import type { TypedStartListening, TypedAddListener } from '@reduxjs/toolkit'
+export type RootState = ReturnType<typeof rootReducer>
+export type AppDispatch = typeof store.dispatch
+export const useAppDispatch: () => AppDispatch = useDispatch
 
-export interface RootState {
-  loader: LoaderState
-  toast: ToastsState
-}
-
-const listenerMiddleware = createListenerMiddleware()
-
-function getCurrentToasts(
-  listenerAPI: ListenerEffectAPI<any, ThunkDispatch<any, any, any>, any>,
-): Toast[] {
-  const state = listenerAPI.getState()
-  return state.toast.toasts
-}
-
-function hideToastAfterTimeout(
-  listenerAPI: ListenerEffectAPI<any, ThunkDispatch<any, any, any>, any>,
-  toast: Toast,
-) {
-  const { dispatch } = listenerAPI
-  const { id } = toast
-
-  setTimeout(() => {
-    dispatch(hideToast(id as string))
-  }, 2500)
-}
-
-listenerMiddleware.startListening({
-  actionCreator: showToast,
-  effect: async (action, listenerApi) => {
-    const toasts = getCurrentToasts(listenerApi)
-    for (const toast of toasts) {
-      hideToastAfterTimeout(listenerApi, toast)
-    }
-  },
+const rootReducer = combineReducers({
+  loader: loaderReducer,
+  toast: toastReducer,
 })
 
+// Define the type for the `startListening` function
+export type AppStartListening = TypedStartListening<RootState, AppDispatch>
+
+// Create the listener middleware
+export const listenerMiddleware = createListenerMiddleware()
+
+// Extract the middleware from the listenerMiddleware object
+export const listenerMiddle = listenerMiddleware.middleware as Middleware<
+  (action: Action<'specialAction'>) => number,
+  RootState
+>
+
+// Extract the `startListening` function from the listenerMiddleware object
+export const startAppListening =
+  listenerMiddleware.startListening as AppStartListening
+
+// Extract the `addListener` function from the listenerMiddleware object
+export const addAppListener = addListener as TypedAddListener<
+  RootState,
+  AppDispatch
+>
+
+// Add listeners for feature 1
+addToastAutoHideListeners(startAppListening)
+
+// Configure the store with the root reducer and the listener middleware
 const store = configureStore({
-  reducer: combineReducers({
-    loader: loaderReducer,
-    toast: toastReducer,
-  }),
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().prepend(listenerMiddleware.middleware),
+    getDefaultMiddleware().prepend(listenerMiddle),
 })
 
 export default store

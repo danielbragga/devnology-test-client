@@ -26,7 +26,7 @@ const Home: NextPage = () => {
   // }
 
   const handleClick2 = () => {
-    dispatch(showToast({ message: 'Toast message', type: 'success' }))
+    dispatch(showToast({ message: 'Toast message', type: 'error' }))
   }
 
   return (
