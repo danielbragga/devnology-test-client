@@ -5,24 +5,15 @@ import {
   ThunkDispatch,
 } from '@reduxjs/toolkit'
 import type { AppStartListening } from '../store/index'
-
-interface Toast {
-  id?: string
-  message: string
-  type: 'error' | 'success' | 'info'
-}
+import { Toast } from './toast.interface'
 
 interface ToastsState {
   toasts: Toast[]
 }
 
-const initialState: ToastsState = {
-  toasts: [],
-}
-
 export const toastsSlice = createSlice({
   name: 'toasts',
-  initialState,
+  initialState: { toasts: [] } as ToastsState,
   reducers: {
     showToast(state, action: PayloadAction<Toast>) {
       const id = Date.now().toString()
