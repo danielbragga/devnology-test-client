@@ -1,40 +1,8 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import styled from 'styled-components'
 import { RootState } from '~/app/store'
-import { Toast as ToastType } from '~/features/toast/toast.interface'
-
-interface ToastProps {
-  toasts: ToastType[]
-}
-
-const ToastContainer = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: #ffffff;
-  border-top: 1px solid #cccccc;
-  display: flex;
-  flex-direction: column;
-`
-
-const Toast = styled.div<{ type: ToastType['type'] }>`
-  padding: 1rem;
-  border-bottom: 1px solid #cccccc;
-  background-color: ${(props) => {
-    switch (props.type) {
-      case 'success':
-        return '#48ff00'
-      case 'error':
-        return '#ff0000'
-      case 'info':
-        return '#ffee00'
-      default:
-        return '#ffffff'
-    }
-  }};
-`
+import { ToastProps } from '~/features/toast/toast.interface'
+import { Toast, ToastContainer } from './Toast.styled'
 
 const ToastComponent: React.FC<ToastProps> = ({ toasts }) => {
   return (

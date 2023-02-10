@@ -3,3 +3,7 @@ export interface Toast {
   message: string
   type: 'error' | 'success' | 'info'
 }
+
+export interface ToastProps {
+  toasts: Toast[]
+}
