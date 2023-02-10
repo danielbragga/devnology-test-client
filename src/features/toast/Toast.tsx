@@ -1,8 +1,8 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { RootState } from '~/store'
-import { Toast as ToastType } from '~/store/toast.interface'
+import { RootState } from '~/app/store'
+import { Toast as ToastType } from '~/features/toast/toast.interface'
 
 interface ToastProps {
   toasts: ToastType[]

@@ -1,11 +1,11 @@
 import type { NextPage } from 'next'
 import { useDispatch } from 'react-redux'
 
-import Button from '~/components/Button/Button'
-import { setLoading } from '~/store/loader'
-import Loader from '~/components/Loader/Loader'
-import { showToast } from '~/store/toast'
-import { ToastWrapper as Toast } from '~/components/Toast/Toast'
+import Button from '~/common/components/Button/Button'
+import { setLoading } from '~/app/loader'
+import Loader from '~/features/loader/Loader'
+import { showToast } from '~/features/toast/toastSlice'
+import { ToastWrapper as Toast } from '~/features/toast/Toast'
 
 const Home: NextPage = () => {
   const dispatch = useDispatch()
@@ -16,14 +16,6 @@ const Home: NextPage = () => {
       dispatch(setLoading(false))
     }, 5000)
   }
-
-  // const handleClick2 = () => {
-  //   const id = Date.now().toString()
-  //   dispatch(showToast({ id: id, message: 'Toast message', type: 'error' }))
-  //   setTimeout(() => {
-  //     dispatch(hideToast(id))
-  //   }, 2500)
-  // }
 
   const handleClick2 = () => {
     dispatch(showToast({ message: 'Toast message', type: 'error' }))

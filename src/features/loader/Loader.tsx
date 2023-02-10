@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { RootState } from '~/store'
+import { RootState } from '~/app/store'
 import { FullScreenLoaderContainer, ButtonLoader } from './Loader.styled'
 import { createPortal } from 'react-dom'
 
