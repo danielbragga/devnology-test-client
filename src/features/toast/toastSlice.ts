@@ -4,7 +4,7 @@ import {
   PayloadAction,
   ThunkDispatch,
 } from '@reduxjs/toolkit'
-import type { AppStartListening } from '../store/index'
+import type { AppStartListening } from '../../app/store'
 import { Toast } from './toast.interface'
 
 interface ToastsState {

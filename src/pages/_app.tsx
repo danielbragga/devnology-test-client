@@ -2,8 +2,8 @@ import { AppProps } from 'next/app'
 import Head from 'next/head'
 import { ThemeProvider } from 'styled-components'
 import { Provider } from 'react-redux'
-import store from '../store'
-import { GlobalStyles, theme } from '~/styles'
+import store from '../app/store'
+import { GlobalStyles, theme } from '~/common/styles'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
